@@ -1,18 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
-const perfilSalvo = ref(false)
-const nome = ref('')
-const email = ref('')
-const senha = ref('')
-const datanasc = ref('')
-const estado = ref('')
-const cidade = ref('')
-const endereco = ref('')
-const linguagemdeprog = ref('')
-const hobbies = ref('')
-const biografia = ref('')
-const estados = {
+const usuario = reactive({
+  nome: '',
+  email: '',
+  senha: '',
+  datanasc: '',
+  estado: '',
+  cidade: '',
+  endereco: '',
+  linguagemdeprog: '',
+  hobbies: '',
+  biografia: '',
+  estados: { 
   AC: 'Acre',
   AL: 'Alagoas',
   AP: 'Amapá',
@@ -41,39 +41,45 @@ const estados = {
   SE: 'Sergipe',
   TO: 'Tocantins'
 }
+})
+const senha = ref('');
+const perfilSalvo = ref(false)
 const editarPerfil = () => {
-  perfilSalvo.value = true
+  if(senha.value == usuario.senha && senha.value != '' ){
+    perfilSalvo.value = true
+  }
 }
+
 </script>
 
 <template>
   <form @submit.prevent="editarPerfil">
-    <div id="teste">
+    <div id="formulario">
       <p>Insira seu nome:</p>
-      <input type="text" v-model="nome" maxlength="20" minlength="3" />
+      <input type="text" v-model="usuario.nome" maxlength="20" minlength="3" required />
       <p>Insira seu email:</p>
-      <input type="email" v-model="email" maxlength="20" minlength="3" />
+      <input type="email" v-model="usuario.email" maxlength="20" minlength="3" required />
       <p>Insira sua senha:</p>
-      <input type="password" v-model="senha" />
+      <input type="password" v-model="usuario.senha" required />
       <p>Confirme sua senha:</p>
-      <input type="password" v-model="senha" />
-      <p>Insira sua data de nascimento: {{ datanasc }}</p>
-      <input type="date" v-model="datanasc" />
+      <input type="password" v-model="senha" required />
+      <p>Insira sua data de nascimento:</p>
+      <input type="date" v-model="usuario.datanasc" required />
       <p>Insira seu endereço:</p>
-      <input type="text" v-model="endereco" />
+      <input type="text" v-model="usuario.endereco" required />
       <p>Insira sua cidade:</p>
-      <input type="text" v-model="cidade" />
+      <input type="text" v-model="usuario.cidade" required />
       <p>Insira seu estado:</p>
-      <select v-model="estado">
+      <select v-model="usuario.estado">
         <option value="">Selecionar Estado</option>
-        <option v-for="(value, key) in estados" :key="key" :value="key">{{ value }}</option>
+        <option v-for="(value, key) in usuario.estados" :key="key" :value="key">{{ value }}</option>
       </select>
       <p>Insira seus hobbies:</p>
-      <input type="text" v-model="hobbies" />
+      <input type="text" v-model="usuario.hobbies" />
       <p>Insira sua linguagem de programação:</p>
-      <input type="text" v-model="linguagemdeprog" />
+      <input type="text" v-model="usuario.linguagemdeprog" />
       <p>Insira sua biografia:</p>
-      <input type="text" v-model="biografia" />
+      <input type="text" v-model="usuario.biografia" />
 
       <br />
       <button @click="editarPerfil" type="submit" id="editar">Editar perfil</button>
@@ -81,15 +87,15 @@ const editarPerfil = () => {
   </form>
   <div class="perfilsalvo" v-if="perfilSalvo">
     <h2>Informações do Perfil:</h2>
-    <p>Nome: {{ nome }}</p>
-    <p>Email: {{ email }}</p>
-    <p>Data de Nascimento: {{ datanasc }}</p>
-    <p>Endereço: {{ endereco }}</p>
-    <p>Cidade: {{ cidade }}</p>
-    <p>Estado: {{ estados[estado] }}</p>
-    <p>Hobbies: {{ hobbies }}</p>
-    <p>Linguagem de Programação: {{ linguagemdeprog }}</p>
-    <p>Biografia: {{ biografia }}</p>
+    <p>Nome: {{ usuario.nome }}</p>
+    <p>Email: {{ usuario.email }}</p>
+    <p>Data de Nascimento: {{ usuario.datanasc }}</p>
+    <p>Endereço: {{ usuario.endereco }}</p>
+    <p>Cidade: {{ usuario.cidade }}</p>
+    <p>Estado: {{ usuario.estado }}</p>
+    <p>Hobbies: {{ usuario.hobbies }}</p>
+    <p>Linguagem de Programação: {{ usuario.linguagemdeprog }}</p>
+    <p>Biografia: {{ usuario.biografia }}</p>
   </div>
 </template>
 
@@ -110,7 +116,7 @@ const editarPerfil = () => {
   margin-bottom: 250px;
   width: 450px;
 }
-#teste {
+#formulario{
   color: rgb(0, 0, 0);
   text-align: left;
   width: 450px;
