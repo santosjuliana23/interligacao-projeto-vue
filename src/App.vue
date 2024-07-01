@@ -12,7 +12,9 @@ const usuario = reactive({
   linguagemdeprog: '',
   hobbies: '',
   biografia: '',
-  estados: { 
+  estado: 'Informe seu estado',
+})
+const estados = { 
   AC: 'Acre',
   AL: 'Alagoas',
   AP: 'Amapá',
@@ -41,50 +43,19 @@ const usuario = reactive({
   SE: 'Sergipe',
   TO: 'Tocantins'
 }
-})
 const senha = ref('');
 const perfilSalvo = ref(false)
 const editarPerfil = () => {
   if(senha.value == usuario.senha && senha.value != '' ){
-    perfilSalvo.value = true
+    perfilSalvo.value = !perfilSalvo.value
+  }else{
+    alert("senhas diferentes")
   }
 }
 
 </script>
 
 <template>
-  <form @submit.prevent="editarPerfil">
-    <div id="formulario">
-      <p>Insira seu nome:</p>
-      <input type="text" v-model="usuario.nome" maxlength="20" minlength="3" required />
-      <p>Insira seu email:</p>
-      <input type="email" v-model="usuario.email" maxlength="20" minlength="3" required />
-      <p>Insira sua senha:</p>
-      <input type="password" v-model="usuario.senha" required />
-      <p>Confirme sua senha:</p>
-      <input type="password" v-model="senha" required />
-      <p>Insira sua data de nascimento:</p>
-      <input type="date" v-model="usuario.datanasc" required />
-      <p>Insira seu endereço:</p>
-      <input type="text" v-model="usuario.endereco" required />
-      <p>Insira sua cidade:</p>
-      <input type="text" v-model="usuario.cidade" required />
-      <p>Insira seu estado:</p>
-      <select v-model="usuario.estado">
-        <option value="">Selecionar Estado</option>
-        <option v-for="(value, key) in usuario.estados" :key="key" :value="key">{{ value }}</option>
-      </select>
-      <p>Insira seus hobbies:</p>
-      <input type="text" v-model="usuario.hobbies" />
-      <p>Insira sua linguagem de programação:</p>
-      <input type="text" v-model="usuario.linguagemdeprog" />
-      <p>Insira sua biografia:</p>
-      <input type="text" v-model="usuario.biografia" />
-
-      <br />
-      <button @click="editarPerfil" type="submit" id="editar">Editar perfil</button>
-    </div>
-  </form>
   <div class="perfilsalvo" v-if="perfilSalvo">
     <h2>Informações do Perfil:</h2>
     <p>Nome: {{ usuario.nome }}</p>
@@ -96,12 +67,46 @@ const editarPerfil = () => {
     <p>Hobbies: {{ usuario.hobbies }}</p>
     <p>Linguagem de Programação: {{ usuario.linguagemdeprog }}</p>
     <p>Biografia: {{ usuario.biografia }}</p>
+    <button @click="editarPerfil" id="editar">Editar perfil</button>
+  </div>
+  <div v-else>
+    <form @submit.prevent="editarPerfil">
+      <div id="formulario">
+        <p>Insira seu nome:</p>
+        <input type="text" v-model="usuario.nome" maxlength="20" minlength="3" required />
+        <p>Insira seu email:</p>
+        <input type="email" v-model="usuario.email" maxlength="20" minlength="3" required />
+        <p>Insira sua senha:</p>
+        <input type="password" v-model="usuario.senha" required />
+        <p>Confirme sua senha:</p>
+        <input type="password" v-model="senha" required />
+        <p>Insira sua data de nascimento:</p>
+        <input type="date" v-model="usuario.datanasc" required />
+        <p>Insira seu endereço:</p>
+        <input type="text" v-model="usuario.endereco" required />
+        <p>Insira sua cidade:</p>
+        <input type="text" v-model="usuario.cidade" required />
+        <p>Insira seu estado:</p>
+        <select v-model="usuario.estado">
+          <option value="">Selecionar Estado</option>
+          <option v-for="(value, key) in estados" :key="key" :value="key">{{ value }}</option>
+        </select>
+        <p>Insira seus hobbies:</p>
+        <input type="text" v-model="usuario.hobbies" />
+        <p>Insira sua linguagem de programação:</p>
+        <input type="text" v-model="usuario.linguagemdeprog" />
+        <p>Insira sua biografia:</p>
+        <input type="text" v-model="usuario.biografia" />
+        <br />
+        <button @click="editarPerfil" type="submit" id="editar">Confirmar Edição</button>
+      </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
 #editar {
-  width: 100px;
+  width: 200px;
   height: 20px;
   border-radius: 5px;
   border: 2px solid black;
